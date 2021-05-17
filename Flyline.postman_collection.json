@@ -1,0 +1,2754 @@
+{
+	"info": {
+		"_postman_id": "a0f8d2e8-5b4f-4ec9-93bc-093d6a352910",
+		"name": "Flyline",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Airfare API",
+			"item": [
+				{
+					"name": "One-way",
+					"item": [
+						{
+							"name": "Airfare API",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Round-trip",
+					"item": [
+						{
+							"name": "Airfare API",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        },\n        {\n            \"departure\": {\n                \"code\": \"LAX\",\n                \"date\": \"{{returnDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"DFW\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Fares by Airlines",
+					"item": [
+						{
+							"name": "American Airlines",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"permitted_carriers\": [\"AA\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "United Airlines",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"permitted_carriers\": [\"UA\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Air Canada",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"YYZ\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"YPR\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"permitted_carriers\": [\"AC\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "British Airways",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"LHR\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"MAN\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"permitted_carriers\": [\"BA\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Frontier Airlines",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"permitted_carriers\": [\"F9\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Spirit Airlines",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"permitted_carriers\": [\"NK\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Alaska Air",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"permitted_carriers\": [\"AS\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "JetBlue Airways",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"JFK\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"permitted_carriers\": [\"B6\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Delta Airlines",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DAL\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"permitted_carriers\": [\"DL\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Southwest Airlines",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DAL\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"permitted_carriers\": [\"WN\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Singapore Airlines",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"SFO\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"SIN\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"permitted_carriers\": [\"SQ\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Air France",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"PUF\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"MAD\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"permitted_carriers\": [\"AF\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Requests with Parameters",
+					"item": [
+						{
+							"name": "Filter by Cabin Class",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"first\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Filter by Deaprture Time Duration",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\",\n                \"permitted_times\": [\n                    {\n                        \"kind\": \"range\",\n                        \"start_time\": \"09:00\",\n                        \"end_time\": \"19:00\"\n                    }\n                ]\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Filter by Arrival Date Duration",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\",\n                \"permitted_dates\": [\n                    {\n                        \"kind\": \"range\",\n                        \"start_date\": \"{{departureDate}}\",\n                        \"end_date\": \"{{departureDate}}\"\n                    }\n                ]\n\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Filter by Arrival Time Duration",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\",\n                \"permitted_times\": [\n                    {\n                        \"kind\": \"range\",\n                        \"start_time\": \"09:00\",\n                        \"end_time\": \"19:00\"\n                    }\n                ]\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Filter by Flight numbers",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            },\n            \"flight_numbers\": [\"403\", \"1610\"]\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Filter by stops",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            },\n            \"flight_numbers\": [\"403\", \"1610\"]\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Filter by Max Price",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"max_price\": {\n        \"currency\": \"USD\",\n        \"price\": \"200\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Filter by Carriers",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = JSON.parse(responseBody);",
+											"let segments = jsonData[\"offers\"][0][\"slices\"][0][\"segments\"]",
+											"let departingAt = segments[0][\"departing_at\"]",
+											"let arrivingAt = segments[segments.length - 1][\"arriving_at\"]",
+											"let timeIndex = departingAt.indexOf(\"T\") + 1",
+											"postman.setEnvironmentVariable(\"departureTime\", departingAt.substring(timeIndex, timeIndex + 5));",
+											"postman.setEnvironmentVariable(\"arrivalTime\", arrivingAt.substring(timeIndex, timeIndex + 5));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"permitted_carriers\": [\"AA\", \"UA\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/flights/shop/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										"shop",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Air Attribute API",
+			"item": [
+				{
+					"name": "Air Attribute By Flight Number",
+					"item": [
+						{
+							"name": "Air Attribute By Flight Number",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"departure\": \"DFW\",\n    \"arrival\": \"LAX\",\n    \"departure_date\": \"{{departureDate}}\",\n    \"flight_no\": \"2812\",\n    \"carrier\": \"AA\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/search/amenities/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"search",
+										"amenities",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Air Attribute By Route",
+					"item": [
+						{
+							"name": "One-way",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/amenities/search/route/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"amenities",
+										"search",
+										"route",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "One-way(permitted_carriers Parameter)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": 1,\n    \"permitted_carriers\": [\"AA\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/amenities/search/route/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"amenities",
+										"search",
+										"route",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "One-way(fare_basis_code Parameter)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": 1,\n    \"fare_basis_codes\": [\"W03PXS2\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/amenities/search/route/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"amenities",
+										"search",
+										"route",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						},
+						{
+							"name": "Round-trip",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let departureDate = new Date();",
+											"let returnDate = new Date();",
+											"//move departure & return date to one week from now",
+											"departureDate.setDate(departureDate.getDate() + 7);",
+											"returnDate.setDate(returnDate.getDate() + 14);",
+											"// convert to ISO string without time",
+											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+											"",
+											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        },\n        {\n            \"departure\": {\n                \"code\": \"LAX\",\n                \"date\": \"{{returnDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"DFW\"\n            }\n        }\n    ],\n    \"passengers\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/amenities/search/route/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"amenities",
+										"search",
+										"route",
+										""
+									]
+								},
+								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Air Schedule API",
+			"item": [
+				{
+					"name": "Schedule Flight",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let departureDate = new Date();",
+									"let returnDate = new Date();",
+									"//move departure & return date to one week from now",
+									"departureDate.setDate(departureDate.getDate() + 7);",
+									"returnDate.setDate(returnDate.getDate() + 14);",
+									"// convert to ISO string without time",
+									"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+									"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+									"",
+									"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+									"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "FToken {{FToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"airline\": \"AA\",\n    \"date\": \"2021-04-19\",\n    \"flight_number\": \"33\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/schedule-flight/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"schedule-flight",
+								""
+							]
+						},
+						"description": "FlyLine Schedule"
+					},
+					"response": []
+				},
+				{
+					"name": "Schedule",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let departureDate = new Date();",
+									"let returnDate = new Date();",
+									"//move departure & return date to one week from now",
+									"departureDate.setDate(departureDate.getDate() + 7);",
+									"returnDate.setDate(returnDate.getDate() + 14);",
+									"// convert to ISO string without time",
+									"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+									"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+									"",
+									"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+									"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "FToken {{FToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"origin\": \"JFK\",\n    \"destination\": \"LAX\",\n    \"airline\": \"AA\",\n    \"date\": \"2021-04-19\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/schedule/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"schedule",
+								""
+							]
+						},
+						"description": "FlyLine Schedule"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Data API",
+			"item": [
+				{
+					"name": "Aircraft Data API",
+					"item": [
+						{
+							"name": "List Aircrafts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"AircraftIataCode\", jsonData[\"data\"][0].iata_code);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/aircraft/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"aircraft",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Aircraft",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/aircraft/{{AircraftIataCode}}/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"aircraft",
+										"{{AircraftIataCode}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Airlines Data API",
+					"item": [
+						{
+							"name": "List Airlines",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"AirlineIataCode\", jsonData[\"data\"][0].iata_code);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/airlines/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"airlines",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Airline",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/airlines/{{AirlineIataCode}}/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"airlines",
+										"{{AirlineIataCode}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Airports Data API",
+					"item": [
+						{
+							"name": "List Airports",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"AirportIataCode\", jsonData[\"data\"][0].iata_code);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/airports/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"airports",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Airport",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/airports/{{AirportIataCode}}/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"airports",
+										"{{AirportIataCode}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Airport By City",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/cities/{{CityIataCode}}/airports/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"cities",
+										"{{CityIataCode}}",
+										"airports",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "City Data API",
+					"item": [
+						{
+							"name": "List City",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"CityIataCode\", jsonData[\"data\"][0].iata_code);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/cities/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"cities",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get City",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/cities/{{CityIataCode}}/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"cities",
+										"{{CityIataCode}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Cabin Class Mapping API",
+					"item": [
+						{
+							"name": "Get Cabin Class Mapping",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/cabin-booking/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"cabin-booking",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Cabin Class(with Parameter)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/cabin-booking/?carrier=AA&cabin_class=economy",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"cabin-booking",
+										""
+									],
+									"query": [
+										{
+											"key": "carrier",
+											"value": "AA"
+										},
+										{
+											"key": "cabin_class",
+											"value": "economy"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Air Amenities Data API",
+					"item": [
+						{
+							"name": "List Seats",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/seats/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"seats",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Seat Layout",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/layouts/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"layouts",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Foods",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/foods/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"foods",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Beverages",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/beverages/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"beverages",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Entertainments",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/entertainments/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"entertainments",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Wifis",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/wifis/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"wifis",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Powers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "FToken {{FToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{BASE_URL}}/api/powers/",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"powers",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
