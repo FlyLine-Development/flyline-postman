@@ -801,7 +801,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DAL\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"permitted_carriers\": [\"DL\"]\n}",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"2021-05-19\"\n            },\n            \"arrival\": {\n                \"code\": \"ATL\"\n            }\n        },\n        {\n            \"departure\": {\n                \"code\": \"ATL\",\n                \"date\": \"2021-06-15\"\n            },\n            \"arrival\": {\n                \"code\": \"DFW\"\n            }\n        }\n    ],\n    \"passengers\": [\n        {\n            \"age\": 27\n        }\n    ],\n    \"permitted_carriers\": [\"DL\"]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1989,7 +1989,7 @@
 			"name": "Air Schedule API",
 			"item": [
 				{
-					"name": "Schedule Flight",
+					"name": "Schedule by Flight Number",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -2043,7 +2043,7 @@
 					"response": []
 				},
 				{
-					"name": "Schedule",
+					"name": "Schedule by Route",
 					"event": [
 						{
 							"listen": "prerequest",

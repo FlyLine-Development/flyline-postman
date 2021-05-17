@@ -24,6 +24,20 @@ The Flyline Postman collection uses [Postman environment variables](https://lear
 The following collection is a fully-featured set of pre-filled requests that allow you to test the [Flyline API](https://staging.flyline.io/api-ref/welcome/), and visualize the responses in a friendly format.
 ### Airfare API
 
+### Air Attribute API
+* **Air Attribute by Flight Number** - Retrieves information of air attributes and amenties on a specific flight
+
+* **Air Attribute by Route**
+    * **One-way** - Retrieves information of air attributes and amenities by one-way trip
+    * **One-way (`permitted_carriers` Parameter)** - Retrieves information of air attributes and amenities by specific airline's one-way trip
+    * **One-way (`fare_basis_codes` Parameter)** - Retrieves information of air attributes and amenities by fare basis codes
+    * **Round-trip** - Retrieves information of air attributes and amenities for round-trip
+
+
+### Air Schedule API
+* **Schedule by Route** - Retrieve information of specific flight schedule by flight number
+* **Schedule by Flight Number** - Retrieve information of flight schedules by the route
+
 ### Data API
 * **Aircraft Data API**
     * **List Aircraft** - Retrieves a paginated list of all supported aircraft
