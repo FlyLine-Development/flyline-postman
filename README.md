@@ -23,6 +23,35 @@ The Flyline Postman collection uses [Postman environment variables](https://lear
 ## Collection endpoints
 The following collection is a fully-featured set of pre-filled requests that allow you to test the [Flyline API](https://staging.flyline.io/api-ref/welcome/), and visualize the responses in a friendly format.
 ### Airfare API
+* **One-way** - Retrieves information of air attributes and amenties on a specific flight
+    * **One-way** - Retrieves one-way trip airfare information
+
+* **Round-trip**
+    * **Round-trip** - Retrieves round-trip airfare information
+
+* **Air Fare by Airlines** - Retrieves airfare information of specific airlines
+    * **American Airlines** - Retrieves airfare information of American Airlines
+    * **Unitied Airlines** - Retrieves airfare information of Unitied Airlines
+    * **Air Canada** - Retrieves airfare information of Air Canada
+    * **British Airways** - Retrieves airfare information of British Airways
+    * **Frontier Airlines** - Retrieves airfare information of Frontier Airlines
+    * **Spirit Airlines** - Retrieves airfare information of Spirit Airlines
+    * **Alaska Air** - Retrieves airfare information of Alaska Air
+    * **Jetblue Airways** - Retrieves airfare information of Jetblue Airways
+    * **Delta Airlines** - Retrieves airfare information of Delta Airlines
+    * **Southwest Airlines** - Retrieves airfare information of Southwest Airlines
+    * **Singapore Airlines** - Retrieves airfare information of Singapore Airlines
+    * **Air France** - Retrieves airfare information of Air France
+
+* **Air Fares with Parameters**
+    * **Filter by Cabin Class** - Filter airfare information by cabin class
+    * **Filter by Departure Time Duration** - Filter by airfare information by departure time range
+    * **Filter by Arrival Date Duration** - Filter by airfare information by arrival date range
+    * **Filter by Arrival Time Duration** - Filter by arifare information by arrival time range
+    * **Filter by Flight Numbers** - Filter by airfare information by a list of flight numbers
+    * **Filter by Stops** - Filter by airfare information by stops
+    * **Filter by Max Price** - Filter by airfare information by max price
+    * **Filter by Airlines** - Filter by airfare information by airlines
 
 ### Air Attribute API
 * **Air Attribute by Flight Number** - Retrieves information of air attributes and amenties on a specific flight
