@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a0f8d2e8-5b4f-4ec9-93bc-093d6a352910",
+		"_postman_id": "ee00beb3-2a92-4b4b-b36c-1c60f8a4d0e2",
 		"name": "Flyline",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -79,8 +79,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						}
@@ -157,8 +156,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						}
@@ -235,8 +233,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -308,8 +305,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -381,8 +377,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -454,8 +449,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -527,8 +521,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -600,8 +593,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -673,8 +665,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -746,8 +737,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -819,8 +809,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -892,8 +881,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -965,8 +953,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -1038,8 +1025,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						}
@@ -1116,8 +1102,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -1189,8 +1174,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -1262,8 +1246,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -1335,8 +1318,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -1408,8 +1390,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -1481,8 +1462,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -1554,8 +1534,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -1627,8 +1606,7 @@
 										"shop",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						}
@@ -1703,8 +1681,7 @@
 										"amenities",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						}
@@ -1775,8 +1752,7 @@
 										"route",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -1842,8 +1818,7 @@
 										"route",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -1909,8 +1884,7 @@
 										"route",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						},
@@ -1976,8 +1950,7 @@
 										"route",
 										""
 									]
-								},
-								"description": "- Test Case1: Try with other cabin_class\n- Test Case2: Try with another departure and arrival code.\n- Test Case3: Try Various Passengers"
+								}
 							},
 							"response": []
 						}
@@ -2089,6 +2062,65 @@
 							"path": [
 								"api",
 								"schedule",
+								""
+							]
+						},
+						"description": "FlyLine Schedule"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Seat Map API",
+			"item": [
+				{
+					"name": "Seat Map API",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let departureDate = new Date();",
+									"let returnDate = new Date();",
+									"//move departure & return date to one week from now",
+									"departureDate.setDate(departureDate.getDate() + 7);",
+									"returnDate.setDate(returnDate.getDate() + 14);",
+									"// convert to ISO string without time",
+									"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
+									"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
+									"",
+									"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
+									"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "FToken {{FToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"carrier\": \"AA\",\n    \"aircraft\": \"332\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/seat-maps/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"seat-maps",
 								""
 							]
 						},
