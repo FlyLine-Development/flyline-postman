@@ -2,7 +2,7 @@
 
 Welcome to the Postman Collections Quickstart Guide! If you're looking for an easy way to get started with the Flyline API with no additional code, you're in the right place. Postman is a great tool that allows users explore API functionality by manually sending API requests and receiving responses. We have created a collection of pre-populated HTTP requests that can be sent to the Flyline API. This quickstart is a step-by-step guide that will get you up and running with Postman and Flyline’s Postman collection to enable you for ad-hoc exploration and testing.
 
-If you are looking for a more in-depth guide and reference for the Plaid API, please refer to the Plaid API documentation.
+If you are looking for a more in-depth guide and reference for the Flyline API, please refer to the Flyline API documentation.
 
 ## Getting Started
 Follow these steps to quickly get started with the [Flyline API](https://staging.flyline.io/api-ref/welcome/):
