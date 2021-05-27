@@ -67,6 +67,9 @@ The following collection is a fully-featured set of pre-filled requests that all
 * **Schedule by Route** - Retrieve information of specific flight schedule by flight number
 * **Schedule by Flight Number** - Retrieve information of flight schedules by the route
 
+### SeatMap API
+* **SeatMap** - Retrieve seatmap information of by airline and aircraft
+
 ### Data API
 * **Aircraft Data API**
     * **List Aircraft** - Retrieves a paginated list of all supported aircraft
