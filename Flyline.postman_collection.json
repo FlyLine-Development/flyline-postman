@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "34ed6484-93a3-4ea7-a0f3-86dc92a5bc4f",
+		"_postman_id": "be81a6ea-23d9-4bfa-8a9d-e1d83d0655d7",
 		"name": "Flyline",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1968,17 +1968,11 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"let departureDate = new Date();",
-									"let returnDate = new Date();",
-									"//move departure & return date to one week from now",
-									"departureDate.setDate(departureDate.getDate() + 7);",
-									"returnDate.setDate(returnDate.getDate() + 14);",
-									"// convert to ISO string without time",
-									"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
-									"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
-									"",
-									"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
-									"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+									"let flightDate = new Date();",
+									"flightDate.setDate(flightDate.getDate() - 1);",
+									"const flightDateDateString = flightDate.toISOString().split(\"T\")[0];",
+									"postman.setEnvironmentVariable(\"flightDate\", flightDateDateString);",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -1998,7 +1992,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"airline\": \"AA\",\n    \"date\": \"2021-04-19\",\n    \"flight_number\": \"33\"\n}"
+							"raw": "{\n    \"airline\": \"AA\",\n    \"date\": \"{{flightDate}}\",\n    \"flight_number\": \"1100\"\n}"
 						},
 						"url": {
 							"raw": "{{BASE_URL}}/api/schedule-flight/",
@@ -2022,17 +2016,11 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"let departureDate = new Date();",
-									"let returnDate = new Date();",
-									"//move departure & return date to one week from now",
-									"departureDate.setDate(departureDate.getDate() + 7);",
-									"returnDate.setDate(returnDate.getDate() + 14);",
-									"// convert to ISO string without time",
-									"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
-									"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
-									"",
-									"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
-									"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
+									"let flightDate = new Date();",
+									"flightDate.setDate(flightDate.getDate() - 1);",
+									"const flightDateDateString = flightDate.toISOString().split(\"T\")[0];",
+									"postman.setEnvironmentVariable(\"flightDate\", flightDateDateString);",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -2052,7 +2040,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"origin\": \"JFK\",\n    \"destination\": \"LAX\",\n    \"airline\": \"AA\",\n    \"date\": \"2021-04-19\"\n}"
+							"raw": "{\n    \"origin\": \"JFK\",\n    \"destination\": \"LAX\",\n    \"airline\": \"AA\",\n    \"date\": \"{{flightDate}}\"\n}"
 						},
 						"url": {
 							"raw": "{{BASE_URL}}/api/schedule/",
