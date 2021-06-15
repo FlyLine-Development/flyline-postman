@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "be81a6ea-23d9-4bfa-8a9d-e1d83d0655d7",
+		"_postman_id": "3ba468e5-4c52-4690-9378-9de4cd21ae42",
 		"name": "Flyline",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1671,14 +1671,15 @@
 									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/api/search/amenities/",
+									"raw": "{{BASE_URL}}/api/search/attributes/flight/",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"api",
 										"search",
-										"amenities",
+										"attributes",
+										"flight",
 										""
 									]
 								}
@@ -1733,7 +1734,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": 1\n}",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1741,146 +1742,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/api/amenities/search/route/",
+									"raw": "{{BASE_URL}}/api/search/attributes/route/",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"api",
-										"amenities",
 										"search",
-										"route",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "One-way(permitted_carriers Parameter)",
-							"event": [
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"let departureDate = new Date();",
-											"let returnDate = new Date();",
-											"//move departure & return date to one week from now",
-											"departureDate.setDate(departureDate.getDate() + 7);",
-											"returnDate.setDate(returnDate.getDate() + 14);",
-											"// convert to ISO string without time",
-											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
-											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
-											"",
-											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
-											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "FToken {{FToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": 1,\n    \"permitted_carriers\": [\"AA\"]\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{BASE_URL}}/api/amenities/search/route/",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"api",
-										"amenities",
-										"search",
-										"route",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "One-way(fare_basis_code Parameter)",
-							"event": [
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"let departureDate = new Date();",
-											"let returnDate = new Date();",
-											"//move departure & return date to one week from now",
-											"departureDate.setDate(departureDate.getDate() + 7);",
-											"returnDate.setDate(returnDate.getDate() + 14);",
-											"// convert to ISO string without time",
-											"const departureDateString = departureDate.toISOString().split(\"T\")[0];",
-											"const returnDateString = returnDate.toISOString().split(\"T\")[0];",
-											"",
-											"postman.setEnvironmentVariable(\"departureDate\", departureDateString);",
-											"postman.setEnvironmentVariable(\"returnDate\", returnDateString);"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "FToken {{FToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": 1,\n    \"fare_basis_codes\": [\"W03PXS2\"]\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{BASE_URL}}/api/amenities/search/route/",
-									"host": [
-										"{{BASE_URL}}"
-									],
-									"path": [
-										"api",
-										"amenities",
-										"search",
+										"attributes",
 										"route",
 										""
 									]
@@ -1931,7 +1800,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        },\n        {\n            \"departure\": {\n                \"code\": \"LAX\",\n                \"date\": \"{{returnDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"DFW\"\n            }\n        }\n    ],\n    \"passengers\": 1\n}",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        },\n        {\n            \"departure\": {\n                \"code\": \"LAX\",\n                \"date\": \"{{returnDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"DFW\"\n            }\n        }\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1939,14 +1808,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/api/amenities/search/route/",
+									"raw": "{{BASE_URL}}/api/search/attributes/route/",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"api",
-										"amenities",
 										"search",
+										"attributes",
 										"route",
 										""
 									]
