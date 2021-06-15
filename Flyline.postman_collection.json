@@ -1671,15 +1671,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/api/search/attributes/flight/",
+									"raw": "{{BASE_URL}}/api/search/amenities/",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"api",
 										"search",
-										"attributes",
-										"flight",
+										"amenities",
 										""
 									]
 								}
@@ -1734,7 +1733,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ]\n}",
+									"raw": "{\n    \"cabin_class\": \"economy\",\n    \"slices\": [\n        {\n            \"departure\": {\n                \"code\": \"DFW\",\n                \"date\": \"{{departureDate}}\"\n            },\n            \"arrival\": {\n                \"code\": \"LAX\"\n            }\n        }\n    ],\n    \"passengers\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1742,14 +1741,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/api/search/attributes/route/",
+									"raw": "{{BASE_URL}}/api/amenities/search/route/",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"api",
+										"amenities",
 										"search",
-										"attributes",
 										"route",
 										""
 									]
@@ -1808,14 +1807,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/api/search/attributes/route/",
+									"raw": "{{BASE_URL}}/api/amenities/search/route/",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"api",
+										"amenities",
 										"search",
-										"attributes",
 										"route",
 										""
 									]
