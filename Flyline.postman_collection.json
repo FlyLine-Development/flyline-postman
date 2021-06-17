@@ -1671,14 +1671,15 @@
 									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/api/search/amenities/",
+									"raw": "{{BASE_URL}}/api/search/attributes/flight/",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"api",
 										"search",
-										"amenities",
+										"attributes",
+										"flight",
 										""
 									]
 								}
@@ -1741,14 +1742,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/api/amenities/search/route/",
+									"raw": "{{BASE_URL}}/api/search/attributes/route/",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"api",
-										"amenities",
 										"search",
+										"attributes",
 										"route",
 										""
 									]
@@ -1807,14 +1808,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/api/amenities/search/route/",
+									"raw": "{{BASE_URL}}/api/search/attributes/route/",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"api",
-										"amenities",
 										"search",
+										"attributes",
 										"route",
 										""
 									]

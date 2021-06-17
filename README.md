@@ -60,8 +60,6 @@ The following collection is a fully-featured set of pre-filled requests that all
 
 * **Air Attribute by Route**
     * **One-way** - Retrieves information of air attributes and amenities by one-way trip
-    * **One-way (`permitted_carriers` Parameter)** - Retrieves information of air attributes and amenities by specific airline's one-way trip
-    * **One-way (`fare_basis_codes` Parameter)** - Retrieves information of air attributes and amenities by fare basis codes
     * **Round-trip** - Retrieves information of air attributes and amenities for round-trip
 
 
