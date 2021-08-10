@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3ba468e5-4c52-4690-9378-9de4cd21ae42",
+		"_postman_id": "b4853837-3820-407a-9318-bb82f4bbd8e1",
 		"name": "Flyline",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1879,6 +1879,54 @@
 					"response": []
 				},
 				{
+					"name": "Schedule by Flight Number with Weather Unit",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let flightDate = new Date();",
+									"flightDate.setDate(flightDate.getDate() - 1);",
+									"const flightDateDateString = flightDate.toISOString().split(\"T\")[0];",
+									"postman.setEnvironmentVariable(\"flightDate\", flightDateDateString);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "FToken {{FToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"airline\": \"AA\",\n    \"date\": \"{{flightDate}}\",\n    \"flight_number\": \"1100\",\n    \"weather_unit\": \"metric\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/schedule-flight/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"schedule-flight",
+								""
+							]
+						},
+						"description": "FlyLine Schedule"
+					},
+					"response": []
+				},
+				{
 					"name": "Schedule by Route",
 					"event": [
 						{
@@ -1910,6 +1958,54 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"origin\": \"JFK\",\n    \"destination\": \"LAX\",\n    \"airline\": \"AA\",\n    \"date\": \"{{flightDate}}\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/schedule/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"schedule",
+								""
+							]
+						},
+						"description": "FlyLine Schedule"
+					},
+					"response": []
+				},
+				{
+					"name": "Schedule by Route with Weather Unit",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let flightDate = new Date();",
+									"flightDate.setDate(flightDate.getDate() - 1);",
+									"const flightDateDateString = flightDate.toISOString().split(\"T\")[0];",
+									"postman.setEnvironmentVariable(\"flightDate\", flightDateDateString);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "FToken {{FToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"origin\": \"JFK\",\n    \"destination\": \"LAX\",\n    \"airline\": \"AA\",\n    \"date\": \"{{flightDate}}\",\n    \"weather_unit\": \"imperial\"\n}"
 						},
 						"url": {
 							"raw": "{{BASE_URL}}/api/schedule/",
